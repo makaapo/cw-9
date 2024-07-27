@@ -13,7 +13,7 @@ interface Props {
 
 const TransactionCard: React.FC<Props> = ({categories, transaction, deleteTransactions }) => {
   const category = categories.find(cat => cat.id === transaction.category);
-  const categoryTitle = category ? category.title : '';
+  const categoryTitle = category ? category.title : 'unknown';
 
   const createdAt = transaction.date;
   const formatDate = dayjs(createdAt).format('DD.MM.YYYY HH:mm:ss');
