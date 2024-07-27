@@ -31,7 +31,7 @@ export type ApiTransaction = Omit<Transaction, 'id'>;
 
 export interface  TransactionMutation {
   title: string;
-  transactionSum: number;
+  transactionSum: string;
   type: string;
   category: string;
   date: string;

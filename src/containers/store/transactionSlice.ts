@@ -43,7 +43,7 @@ const transactionSlice = createSlice({
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.transactions = action.payload;
         state.total = action.payload.reduce((total, transaction) => {
-          return transaction.type === 'income' ? total + transaction.transactionSum : total - transaction.transactionSum;
+          return transaction.type === 'expense' ? total + transaction.transactionSum : total - transaction.transactionSum;
         }, 0);
         state.isFetching = false;
       })
@@ -97,6 +97,7 @@ const transactionSlice = createSlice({
     selectUpdateTransactionLoading: (state) => state.isUpdated,
     selectOneTransaction: (state) => state.oneTransaction,
     selectDeleteTransactionLoading: (state) => state.transactions,
+    selectTransactionsTotal: (state) => state.total,
   },
 });
 
@@ -108,6 +109,7 @@ export const {
   selectFetchOneTransactionLoading,
   selectUpdateTransactionLoading,
   selectOneTransaction,
-  selectDeleteTransactionLoading
+  selectDeleteTransactionLoading,
+  selectTransactionsTotal
 
 } = transactionSlice.selectors;

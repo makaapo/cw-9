@@ -60,19 +60,20 @@ const Categories: React.FC = () => {
         <h4>Categories</h4>
         <button className="btn btn-primary" onClick={onAddCategory}>Add</button>
       </div>
-      <hr />
+      <hr/>
       {isFetching ? (
-        <Spinner />
+        <Spinner/>
       ) : (
-        <>
+        <div className="d-flex justify-content-center align-items-center flex-column">
           {categories.length === 0 ? (
             <h3>No categories yet</h3>
           ) : (
             categories.map((categoryItem) => (
-              <div key={categoryItem.id} className="w-50 align-items-center d-flex mb-2 border p-2 justify-content-between">
+              <div key={categoryItem.id}
+                   className="w-50 align-items-center d-flex mb-2 border p-2 justify-content-between rounded shadow-lg">
                 <div>
                   <p>{categoryItem.title}</p>
-                  <p>{categoryItem.type}</p>
+                  <p className={categoryItem.type === 'income' ? 'text-success' : 'text-danger'}>{categoryItem.type}</p>
                 </div>
                 <div>
                   <button className="btn btn-warning ms-2" onClick={() => onEditCategory(categoryItem.id)}>Edit</button>
@@ -82,14 +83,14 @@ const Categories: React.FC = () => {
               </div>
             ))
           )}
-        </>
+        </div>
       )}
       <Modal
         title={<h1>{isEditMode ? 'Edit Category' : 'Add new Category'}</h1>}
         show={modalOpen}
         onClose={resetForm}
       >
-      <CategoryForm
+        <CategoryForm
           onSubmit={onFormSubmit}
           existingCategory={isEditMode && oneCategory ? oneCategory : undefined}
           isLoading={isLoading || oneLoading || editLoading || deleteLoading}

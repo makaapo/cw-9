@@ -51,6 +51,24 @@ export const fetchOneCategory = createAsyncThunk<Category, string, {state: RootS
       throw new Error('Not found');
     }
 
-    return { id, ...category };
+    return {id, ...category};
   },
+);
+
+export const getCategoriesType = createAsyncThunk<Category[], string, {state: RootState}>(
+  'category/get-by-type',
+  async (type: string) => {
+    let url = `category.json?orderBy="type"&equalTo="${type}"`;
+
+    const { data: categories } = await axiosApi.get<ApiCategories | null>(url);
+
+    if (categories !== null) {
+      return Object.keys(categories).map((id) => ({
+        id,
+        ...categories[id],
+      }));
+    } else {
+      return [];
+    }
+  }
 );
