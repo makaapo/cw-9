@@ -18,7 +18,7 @@ const emptyState: TransactionMutation = {
   date: '',
 };
 
-const TransactionForm: React.FC<Props> = ({ onSubmit, existingTrans, isLoading }) => {
+const TransactionForm: React.FC<Props> = ({onSubmit, existingTrans, isLoading}) => {
   const initialState: TransactionMutation = existingTrans
     ? { ...existingTrans, transactionSum: existingTrans.transactionSum.toString() }
     : emptyState;

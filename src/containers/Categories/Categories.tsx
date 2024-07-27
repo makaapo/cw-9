@@ -6,6 +6,7 @@ import {addCategory, deleteCategory, editCategory, fetchCategories, fetchOneCate
 import CategoryForm from '../../components/Forms/CategoryForm/CategoryForm';
 import {selectCategories, selectCreateCategoryLoading, selectDeleteCategoryLoading, selectFetchCategoryLoading, selectFetchOneCategoryLoading, selectOneCategory, selectUpdateCategoryLoading} from '../store/categoriesSlice';
 import {CategoryMutation} from '../../types';
+import {toast} from 'react-toastify';
 
 const Categories: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -39,19 +40,38 @@ const Categories: React.FC = () => {
   };
 
   const onEditCategory = async (id: string) => {
-    await dispatch(fetchOneCategory(id));
-    setIsEditMode(true);
-    setModalOpen(true);
+    try {
+      await dispatch(fetchOneCategory(id));
+      setIsEditMode(true);
+      setModalOpen(true);
+      toast.success('transaction updated!');
+    } catch (error) {
+      toast.error('category not updated!');
+    }
   };
 
   const onDeleteCategory = async (id: string) => {
-    await dispatch(deleteCategory(id));
-    dispatch(fetchCategories());
+    if (!confirm('Are you sure you want to delete this category?')) {
+      return;
+    }
+    try {
+      await dispatch(deleteCategory(id));
+      dispatch(fetchCategories());
+      toast.success('category deleted!');
+    } catch (error) {
+      toast.success('category not deleted!');
+    }
   };
 
   const onAddCategory = () => {
-    setIsEditMode(false);
-    setModalOpen(true);
+    try {
+      setIsEditMode(false);
+      setModalOpen(true);
+      toast.success('category added!');
+    } catch (error) {
+      toast.success('category not added!');
+    }
+
   };
 
   return (

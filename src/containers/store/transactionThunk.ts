@@ -1,5 +1,5 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
-import {ApiTransaction, ApiTransactions, Transaction, TransactionMutation} from '../../types';
+import {ApiTransaction, ApiTransactions, Transaction, TransactionMutations} from '../../types';
 import {RootState} from '../../app/store';
 import axiosApi from '../../axiosApi';
 
@@ -17,9 +17,9 @@ export const fetchTransactions = createAsyncThunk<Transaction[], void, {state: R
   }
 );
 
-export const addTransaction = createAsyncThunk<void, TransactionMutation, {state: RootState}>(
+export const addTransaction = createAsyncThunk<void, TransactionMutations, {state: RootState}>(
   'transaction/add',
-  async (transaction: TransactionMutation) => {
+  async (transaction: TransactionMutations) => {
     const now = new Date();
     const date = now.toISOString();
 

@@ -7,6 +7,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import {useAppDispatch, useAppSelector} from '../../app/hooks';
 import {selectFetchTransactionLoading, selectTransactions, selectTransactionsTotal} from '../store/transactionSlice';
 import {selectCategories} from '../store/categoriesSlice';
+import {toast} from 'react-toastify';
 
 const Home = () => {
   const transaction = useAppSelector(selectTransactions);
@@ -21,8 +22,15 @@ const Home = () => {
   }, [dispatch]);
 
   const deleteTransactions = async (id: string) => {
-    await dispatch(deleteTransaction(id));
-    dispatch(fetchTransactions());
+    if (!confirm('Are you sure you want to delete this category?')) {
+      return;
+    } try {
+      await dispatch(deleteTransaction(id));
+      dispatch(fetchTransactions());
+      toast.success('transaction deleted!');
+    } catch (error) {
+      toast.error('category not deleted!');
+    }
   };
   const balanceColor = total >= 0 ? 'text-success' : 'text-danger';
 

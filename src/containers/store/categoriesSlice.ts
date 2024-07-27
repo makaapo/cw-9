@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { ApiCategory, Category } from '../../types';
-import { addCategory, deleteCategory, editCategory, fetchCategories, fetchOneCategory } from './categoriesThunks';
+import {createSlice} from '@reduxjs/toolkit';
+import {ApiCategory, Category} from '../../types';
+import {addCategory, deleteCategory, editCategory, fetchCategories, fetchOneCategory } from './categoriesThunks';
 
 export interface TransactionState {
   categories: Category[];

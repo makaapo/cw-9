@@ -1,9 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Category, Transaction } from '../../types';
 import dayjs from 'dayjs';
 import { NavLink } from 'react-router-dom';
-import {getCategoriesType} from '../../containers/store/categoriesThunks';
-import {useAppDispatch} from '../../app/hooks';
+
+
 
 interface Props {
   transaction: Transaction;
@@ -14,14 +14,6 @@ interface Props {
 const TransactionCard: React.FC<Props> = ({categories, transaction, deleteTransactions }) => {
   const category = categories.find(cat => cat.id === transaction.category);
   const categoryTitle = category ? category.title : '';
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (transaction.type !== undefined && transaction.type?.trim().length > 0) {
-      dispatch(getCategoriesType(transaction.type));
-    }
-
-  }, [transaction.type]);
 
   const createdAt = transaction.date;
   const formatDate = dayjs(createdAt).format('DD.MM.YYYY HH:mm:ss');
@@ -31,7 +23,7 @@ const TransactionCard: React.FC<Props> = ({categories, transaction, deleteTransa
       <div className="card-body">
         <h5 className="card-title">{transaction.title}</h5>
         <p className="card-text">
-          {transaction.type === 'expense' ? (
+          {transaction.type === 'income' ? (
             <span className="text-success"><b>+{transaction.transactionSum}</b></span>
           ) : (
             <span className="text-danger"><b>-{transaction.transactionSum}</b></span>

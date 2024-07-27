@@ -37,6 +37,14 @@ export interface  TransactionMutation {
   date: string;
 }
 
+export interface  TransactionMutations {
+  title: string;
+  transactionSum: number;
+  type: string;
+  category: string;
+  date: string;
+}
+
 export interface ApiTransactions {
   [id: string]: ApiTransaction;
 }

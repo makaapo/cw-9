@@ -1,21 +1,15 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {ApiTransaction, Transaction} from '../../types';
-import {
-  addTransaction,
-  deleteTransaction,
-  editTransaction,
-  fetchOneTransaction,
-  fetchTransactions
-} from './transactionThunk';
+import {addTransaction, deleteTransaction, editTransaction, fetchOneTransaction, fetchTransactions} from './transactionThunk';
 
 
 export interface TransactionState {
   transactions: Transaction[];
-  oneTransaction:ApiTransaction  | null;
+  oneTransaction: ApiTransaction | null;
   total: number;
   isFetching: boolean;
   isCreated: boolean;
-  isDeleted: boolean;
+  isDeleted: false | string;
   isUpdated: boolean;
   oneLoading: boolean
 }
@@ -43,7 +37,7 @@ const transactionSlice = createSlice({
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.transactions = action.payload;
         state.total = action.payload.reduce((total, transaction) => {
-          return transaction.type === 'expense' ? total + transaction.transactionSum : total - transaction.transactionSum;
+          return transaction.type === 'income' ? total + transaction.transactionSum : total - transaction.transactionSum;
         }, 0);
         state.isFetching = false;
       })
@@ -59,8 +53,8 @@ const transactionSlice = createSlice({
       .addCase(addTransaction.rejected, (state) => {
         state.isCreated = false;
       })
-      .addCase(deleteTransaction.pending, (state) => {
-        state.isDeleted = true;
+      .addCase(deleteTransaction.pending, (state, {meta: {arg: id} }) => {
+        state.isDeleted = id;
       })
       .addCase(deleteTransaction.fulfilled, (state) => {
         state.isDeleted = false;
@@ -81,7 +75,7 @@ const transactionSlice = createSlice({
         state.oneTransaction = null;
         state.oneLoading = true;
       })
-      .addCase(fetchOneTransaction.fulfilled, (state, { payload }) => {
+      .addCase(fetchOneTransaction.fulfilled, (state, {payload }) => {
         state.oneTransaction = payload;
         state.oneLoading = false;
       })
@@ -109,7 +103,6 @@ export const {
   selectFetchOneTransactionLoading,
   selectUpdateTransactionLoading,
   selectOneTransaction,
-  selectDeleteTransactionLoading,
   selectTransactionsTotal
 
 } = transactionSlice.selectors;
