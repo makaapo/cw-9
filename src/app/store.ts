@@ -1,10 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit';
+import {CategoryReducer} from '../containers/store/categoriesSlice';
 
 
 
 export const store = configureStore({
   reducer: {
     // transactions: TransactionReducer,
+    category: CategoryReducer,
   }
 });
 
